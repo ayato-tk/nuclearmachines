@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "nuclearmachines",
+  "version": "${version}",
+
+  "name": "Nuclear Machines",
+  "description": "This mod serves for more fun nuclear features!",
+  "authors": [
+    "Mezsiah"
+  ],
+  "contact": {
+    "sources": "https://github.com/ayato-tk/nuclearmachines"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.mezsiah.nuclearmachines.NuclearMachines"
+    ]
+  },
+  "mixins": [
+    "nuclearmachines.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.18.x",
+    "java": ">=17"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
