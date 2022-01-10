@@ -13,7 +13,7 @@ import net.minecraft.item.ItemGroup;
 public class registerItem {
     
 
-    private final Item URANIUM = new Uranium(new FabricItemSettings().group(ItemGroup.MATERIALS));
+    public static final Item URANIUM = new Uranium(new FabricItemSettings().group(ItemGroup.MATERIALS));
 
     private void register(Registry registry, String itemName, Item item){
         registry.register(Registry.ITEM, new Identifier(NuclearMachines.MODID, itemName), item);
