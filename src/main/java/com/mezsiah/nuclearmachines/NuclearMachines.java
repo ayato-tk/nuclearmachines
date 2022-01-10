@@ -3,6 +3,7 @@ package com.mezsiah.nuclearmachines;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.registry.Registry;
 
+import com.mezsiah.nuclearmachines.config.registerBlock;
 import com.mezsiah.nuclearmachines.config.registerItem;
 
 
@@ -24,6 +25,6 @@ public class NuclearMachines implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		 new registerItem(registry);
-
+		 new registerBlock(registry);
 	}
 }
