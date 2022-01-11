@@ -3,12 +3,13 @@ package com.mezsiah.nuclearmachines.block.entity;
 import com.mezsiah.nuclearmachines.config.registerBlockEntity;
 import com.mezsiah.nuclearmachines.config.registerItem;
 import com.mezsiah.nuclearmachines.item.inventory.ImplementedInventory;
+import com.mezsiah.nuclearmachines.screen.UraniumFurnaceScreen;
 
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext.Result;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -16,31 +17,47 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.LiteralText;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import team.reborn.energy.api.EnergyStorage;
+import team.reborn.energy.api.base.SimpleEnergyStorage;
 
 public class UraniumFurnaceEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory{
 
     private final DefaultedList<ItemStack> Inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 
+    public  final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(1000, 100, 100) {
+        @Override
+        protected void onFinalCommit() {
+            markDirty();
+        }
+
+        @Override
+        public boolean supportsInsertion() {
+            return true;
+        }
+
+        
+
+    };
+
     public UraniumFurnaceEntity( BlockPos pos, BlockState state) {
         super(registerBlockEntity.URANIUM_FURNACE_ENTITY, pos, state);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        // TODO Auto-generated method stub
-        return null;
+        return new UraniumFurnaceScreen(syncId, inv, ScreenHandlerContext.create(world, pos));
     }
 
     @Override
     public Text getDisplayName() {
-        return new LiteralText("Uranium Furnace");
+        return new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
 
     @Override
@@ -52,24 +69,33 @@ public class UraniumFurnaceEntity extends BlockEntity implements NamedScreenHand
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, Inventory);
+        
     }
+
+     
 
     @Override
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, Inventory);
+        
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, UraniumFurnaceEntity entity) {
+    public SimpleEnergyStorage getEnergyStorage() {
+        return energyStorage;
+    }
+
+    public  void tick(World world, BlockPos pos, BlockState state, UraniumFurnaceEntity entity) {
         if(hasRecipe(entity) && hasNotReachedStackLimit(entity)) {
             craftItem(entity);
 
             if(!world.isClient()) {
-                EntityType.LIGHTNING_BOLT.spawn((ServerWorld) world, null, null, null, pos,
-                        SpawnReason.TRIGGERED, true, true);
+                energyStorage.amount = energyStorage.amount + 10;
+                markDirty();
             }
         }
     }
+
 
     private static void craftItem(UraniumFurnaceEntity entity) {
         entity.removeStack(0, 1);

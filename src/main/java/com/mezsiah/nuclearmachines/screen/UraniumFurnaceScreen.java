@@ -1,42 +1,36 @@
 package com.mezsiah.nuclearmachines.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mezsiah.nuclearmachines.block.entity.UraniumFurnaceEntity;
+import com.mezsiah.nuclearmachines.config.registerScreenHandler;
 
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
+import io.github.cottonmc.cotton.gui.widget.WGridPanel;
+import io.github.cottonmc.cotton.gui.widget.WItemSlot;
+import io.github.cottonmc.cotton.gui.widget.WLabel;
+import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.text.Text;
+import net.minecraft.screen.ScreenHandlerContext;
+import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.text.TranslatableText;
 
-public class UraniumFurnaceScreen extends HandledScreen<ScreenHandler>{
+public class UraniumFurnaceScreen extends SyncedGuiDescription{
+    private static final int INVENTORY_SIZE = 1;
 
-    public UraniumFurnaceScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
-        super(handler, inventory, title);
-    }
+    public UraniumFurnaceScreen( int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
+        super(registerScreenHandler.SCREEN_HANDLER_TYPE, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context));
+        WGridPanel root = new WGridPanel();
+        setRootPanel(root);
+        root.setSize(300, 200);
+        root.setInsets(Insets.ROOT_PANEL);
 
-    @Override
-    protected void init() {
-        super.init();
-        titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
-    }
+        WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
+        root.add(itemSlot, 4, 1);
 
-    @Override
-    protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        //RenderSystem.setShaderTexture(0, TEXTURE);
-        int x = (width - backgroundWidth) / 2;
-        int y = (height - backgroundHeight) / 2;
-        drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
-        
-    }
+       // WLabel energyStorage = new WLabel(new TranslatableText())
 
-    @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
-        drawMouseoverTooltip(matrices, mouseX, mouseY);
+        root.add(this.createPlayerInventoryPanel(), 0, 3);
+
+        root.validate(this);
     }
     
 }
