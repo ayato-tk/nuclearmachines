@@ -1,15 +1,14 @@
 package com.mezsiah.nuclearmachines;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-import net.minecraft.block.GrassBlock;
-import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.util.registry.Registry;
 
 import com.mezsiah.nuclearmachines.config.registerBlock;
 import com.mezsiah.nuclearmachines.config.registerBlockEntity;
 import com.mezsiah.nuclearmachines.config.registerItem;
 import com.mezsiah.nuclearmachines.config.registerScreenHandler;
+
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,5 +33,9 @@ public class NuclearMachines implements ModInitializer {
 		 new registerScreenHandler();
 	}
 
+
+	public static void log(String item){
+		 LOGGER.info(item);
+	}
 	
 }

@@ -12,9 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import com.mezsiah.nuclearmachines.block.Uranium_ore;
-import com.mezsiah.nuclearmachines.block.custom.Uranium_furnace;
-
-import blue.endless.jankson.annotation.Nullable;
+import com.mezsiah.nuclearmachines.block.custom.Uranium_generator;
 
 
 public class registerBlock {
@@ -25,7 +23,7 @@ public class registerBlock {
     .requiresTool()
     );
 
-    public static final Block URANIUM_FURNACE = new Uranium_furnace( FabricBlockSettings.of(Material.METAL).strength(3.0f).requiresTool());
+    public static final Block URANIUM_GENERATOR = new Uranium_generator( FabricBlockSettings.of(Material.METAL).strength(3.0f).requiresTool());
 
     private void register(Registry registry, String blockName, Block block){
         registry.register(registry.BLOCK, new Identifier(NuclearMachines.MODID, blockName), block);
@@ -34,7 +32,7 @@ public class registerBlock {
     
     public registerBlock(Registry registry){
         this.register(registry, "uranium_ore", URANIUM_ORE);
-        this.register(registry, "uranium_furnace", URANIUM_FURNACE);
+        this.register(registry, "uranium_generator", URANIUM_GENERATOR);
     }
 
 
