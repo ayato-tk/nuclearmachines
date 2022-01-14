@@ -16,6 +16,8 @@ repositories {
 		name = "CottonMC"
 		url = "https://server.bbkr.space/artifactory/libs-release"
 	}
+
+	
 }
 
 dependencies {
@@ -26,6 +28,7 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
 	modImplementation include("io.github.cottonmc:LibGui:5.2.0+1.18")
 	modImplementation include("teamreborn:energy:2.1.0")
 }

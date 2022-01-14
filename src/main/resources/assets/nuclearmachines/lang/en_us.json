@@ -1,4 +1,5 @@
 {
     "item.nuclearmachines.uranium": "Uranium Ingot",
-    "block.nuclearmachines.uranium_ore": "Uranium Ore"
+    "block.nuclearmachines.uranium_ore": "Uranium Ore",
+    "block.nuclearmachines.uranium_furnace": " Uranium Furnace"
 }
