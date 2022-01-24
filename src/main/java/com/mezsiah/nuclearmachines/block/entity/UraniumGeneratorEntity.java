@@ -5,6 +5,7 @@ import com.mezsiah.nuclearmachines.config.registerItem;
 import com.mezsiah.nuclearmachines.item.inventory.ImplementedInventory;
 import com.mezsiah.nuclearmachines.screen.UraniumGeneratorScreen;
 
+import io.github.cottonmc.cotton.gui.PropertyDelegateHolder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 
@@ -14,6 +15,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.text.Text;
@@ -23,11 +25,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import team.reborn.energy.api.base.SimpleEnergyStorage;
 
-public class UraniumGeneratorEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory{
+public class UraniumGeneratorEntity extends BlockEntity implements PropertyDelegateHolder, NamedScreenHandlerFactory, ImplementedInventory{
 
     private final DefaultedList<ItemStack> Inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
    
-    private long currentEnergy;
+    private int currentEnergy = 0;
     
     public  final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(1000, 100, 100) {
         @Override
@@ -40,6 +42,26 @@ public class UraniumGeneratorEntity extends BlockEntity implements NamedScreenHa
             return true;
         }
     };
+
+    private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+
+        @Override
+        public int size() {
+            return 1;
+        }
+        @Override
+        public int get(int index){
+            if(index == 0){
+                return currentEnergy;
+            } 
+            return -1;
+        }
+        @Override
+        public void set(int index, int value){}
+
+    };
+
+
 
     public UraniumGeneratorEntity( BlockPos pos, BlockState state) {
         super(registerBlockEntity.URANIUM_GENERATOR_ENTITY, pos, state);
@@ -54,7 +76,7 @@ public class UraniumGeneratorEntity extends BlockEntity implements NamedScreenHa
     public Text getDisplayName() {
         return new TranslatableText(getCachedState().getBlock().getTranslationKey());
     }
-
+    
     @Override
     public DefaultedList<ItemStack> getItems() {
         return Inventory;
@@ -88,11 +110,7 @@ public class UraniumGeneratorEntity extends BlockEntity implements NamedScreenHa
     }
 
     public void setEnergy(UraniumGeneratorEntity entity){
-        currentEnergy = entity.energyStorage.getAmount();
-    }
-
-    public long getEnergy(){
-        return currentEnergy;
+        currentEnergy = (int) entity.energyStorage.getAmount();
     }
 
 
@@ -110,11 +128,7 @@ public class UraniumGeneratorEntity extends BlockEntity implements NamedScreenHa
         
         if(hasRecipe(entity) && hasNotReachedStackLimit(entity)) {
             craftItem(entity, world);
-            if(!world.isClient()) {
-               
-              //  NuclearMachines.log(entity.energyStorage.getAmount() + "");
-                
-            }
+            if(!world.isClient()) {}
         }
     }
     
@@ -140,6 +154,11 @@ public class UraniumGeneratorEntity extends BlockEntity implements NamedScreenHa
 
     private static boolean hasNotReachedStackLimit(UraniumGeneratorEntity entity) {
         return entity.getStack(2).getCount() < entity.getStack(2).getMaxCount();
+    }
+
+    @Override
+    public PropertyDelegate getPropertyDelegate() {
+        return propertyDelegate;
     }
 
 }
