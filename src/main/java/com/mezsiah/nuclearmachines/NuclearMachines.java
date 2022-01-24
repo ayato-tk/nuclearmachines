@@ -5,6 +5,7 @@ import net.minecraft.util.registry.Registry;
 
 import com.mezsiah.nuclearmachines.config.registerBlock;
 import com.mezsiah.nuclearmachines.config.registerBlockEntity;
+import com.mezsiah.nuclearmachines.config.registerFluid;
 import com.mezsiah.nuclearmachines.config.registerItem;
 import com.mezsiah.nuclearmachines.config.registerScreenHandler;
 
@@ -29,6 +30,7 @@ public class NuclearMachines implements ModInitializer {
 	public void onInitialize() {
 		 new registerItem(registry);
 		 new registerBlock(registry);
+		 new registerFluid(registry);
 		 new registerBlockEntity();
 		 new registerScreenHandler();
 	}

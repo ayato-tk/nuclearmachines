@@ -12,12 +12,11 @@ import io.github.cottonmc.cotton.gui.widget.WItemSlot;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandlerContext;
 
 public class UraniumGeneratorScreen extends SyncedGuiDescription  {
     private static final int INVENTORY_SIZE = 1;
-    private static final int PROPERTY_COUNT = 1;
+    private static final int PROPERTY_COUNT = 2;
     
     public UraniumGeneratorScreen( int syncId, PlayerInventory playerInventory, ScreenHandlerContext context ) {
         super(registerScreenHandler.SCREEN_HANDLER_TYPE, syncId, playerInventory, getBlockInventory(context, INVENTORY_SIZE), getBlockPropertyDelegate(context, PROPERTY_COUNT));
@@ -30,13 +29,12 @@ public class UraniumGeneratorScreen extends SyncedGuiDescription  {
         WItemSlot itemSlot = WItemSlot.of(blockInventory, 0);
         root.add(itemSlot, 4, 1);
         WDynamicLabel energy = new WDynamicLabel( () -> I18n.translate("text.nuclearmachines.energy", this.getPropertyDelegate().get(0)) );
+        WDynamicLabel fuel = new WDynamicLabel( () -> I18n.translate("text.nuclearmachines.fuel", this.getPropertyDelegate().get(1)) );
         root.add(energy, 2, 2);
+        root.add(fuel, 2, 3);
         root.add(this.createPlayerInventoryPanel(), 0, 3);
 
         root.validate(this);
     }
-    @Override
-    public @Nullable PropertyDelegate getPropertyDelegate() {
-        return super.getPropertyDelegate();
-    }
+
 }

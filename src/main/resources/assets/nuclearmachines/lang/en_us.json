@@ -3,5 +3,7 @@
     "block.nuclearmachines.uranium_ore": "Uranium Ore",
     "block.nuclearmachines.uranium_furnace": " Uranium Furnace",
     "block.nuclearmachines.uranium_generator": " Uranium Generator",
-    "text.nuclearmachines.energy": "Energy: %d"
+    "item.nuclearmachines.molten_uranium_bucket": "Molten Uranium Bucket",
+    "text.nuclearmachines.energy": "Energy: %d",
+    "text.nuclearmachines.fuel": "Fuel: %d"
 }

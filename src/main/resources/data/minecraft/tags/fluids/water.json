@@ -1,0 +1,8 @@
+{
+	"replace": false,
+	"values":
+	[
+		"nuclearmachines:molten_uranium",
+		"nuclearmachines:flowing_molten_uranium"
+	]
+}

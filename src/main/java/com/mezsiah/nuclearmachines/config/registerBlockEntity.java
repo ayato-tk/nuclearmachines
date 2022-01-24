@@ -1,6 +1,7 @@
 package com.mezsiah.nuclearmachines.config;
 
 import com.mezsiah.nuclearmachines.NuclearMachines;
+import com.mezsiah.nuclearmachines.block.entity.UraniumCableEntity;
 import com.mezsiah.nuclearmachines.block.entity.UraniumGeneratorEntity;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -10,6 +11,12 @@ import net.minecraft.util.registry.Registry;
 import team.reborn.energy.api.EnergyStorage;
 
 public class registerBlockEntity {
+
+    public static  BlockEntityType<UraniumCableEntity> URANIUM_CABLE_ENTITY =
+    Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(NuclearMachines.MODID, "uranium_cable"),
+    FabricBlockEntityTypeBuilder.create(UraniumCableEntity::new,
+    registerBlock.URANIUM_CABLE).build(null));
+
     public static  BlockEntityType<UraniumGeneratorEntity> URANIUM_GENERATOR_ENTITY =
     Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(NuclearMachines.MODID, "uranium_generator"),
     FabricBlockEntityTypeBuilder.create(UraniumGeneratorEntity::new,
